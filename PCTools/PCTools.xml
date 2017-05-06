@@ -1,0 +1,5 @@
+<PCTools>
+	<ServerURL>http://123.56.241.85:8080</ServerURL>
+	<AddWO>/ADOrderInfo/AddInboundServiceRequest?v=1_1</AddWO>
+	<GetWOCategory>/ADOrderInfo/GetInboundServiceType?v=1_1</GetWOCategory>
+</PCTools>

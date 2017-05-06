@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include <string>
 #ifndef __AFXWIN_H__
 	#error "include 'stdafx.h' before including this file for PCH"
 #endif
@@ -27,6 +28,11 @@ public:
 // Implementation
 
 	DECLARE_MESSAGE_MAP()
+
+public:
+	std::string m_ServerURL;
+	std::string m_AddWO;
+	std::string m_GetWOCategory;
 };
 
 extern CPCToolsApp theApp;

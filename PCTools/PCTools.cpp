@@ -5,6 +5,7 @@
 #include "stdafx.h"
 #include "PCTools.h"
 #include "PCToolsDlg.h"
+#include "tinyxml2/tinyxml2.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -49,6 +50,28 @@ BOOL CPCToolsApp::InitInstance()
 	// such as the name of your company or organization
 	SetRegistryKey(_T("Local AppWizard-Generated Applications"));
 
+	using namespace tinyxml2;
+	tinyxml2::XMLDocument config;
+	std::string configfile = this->m_pszAppName; configfile.append(".xml");
+	if (config.LoadFile(configfile.c_str()) == XMLError::XML_SUCCESS)
+	{
+		if (XMLElement *epctools = config.FirstChildElement("PCTools")) {
+			if (XMLElement * eserverurl = epctools->FirstChildElement("ServerURL"))
+			{
+				m_ServerURL = eserverurl->GetText() ? eserverurl->GetText() : "";
+			}
+
+			if (XMLElement * eaddwo = epctools->FirstChildElement("AddWO"))
+			{
+				m_AddWO = eaddwo->GetText() ? eaddwo->GetText() : "";
+			}
+			if (XMLElement * eGetWOCategory = epctools->FirstChildElement("GetWOCategory"))
+			{
+				m_GetWOCategory = eGetWOCategory->GetText() ? eGetWOCategory->GetText() : "";
+			}
+		}
+	}
+	
 	CPCToolsDlg dlg;
 	m_pMainWnd = &dlg;
 	INT_PTR nResponse = dlg.DoModal();
