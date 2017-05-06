@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "httpclient.h"
 #include "curl/curl.h"
 #include <string>

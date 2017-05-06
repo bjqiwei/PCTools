@@ -3,6 +3,7 @@
 //
 
 #pragma once
+#include "afxwin.h"
 
 
 // CPCToolsDlg dialog
@@ -31,4 +32,8 @@ protected:
 	afx_msg void OnPaint();
 	afx_msg HCURSOR OnQueryDragIcon();
 	DECLARE_MESSAGE_MAP()
+private:
+	CComboBox m_WOCategory;
+public:
+	afx_msg void OnBnClickedOk();
 };
