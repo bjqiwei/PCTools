@@ -4,6 +4,7 @@
 
 #pragma once
 #include "afxwin.h"
+#include "afxcmn.h"
 
 
 // CPCToolsDlg dialog
@@ -36,4 +37,12 @@ private:
 	CComboBox m_WOCategory;
 public:
 	afx_msg void OnBnClickedOk();
+private:
+	CString m_TelPhone;
+public:
+	CComboBox m_WOLevel;
+	CString m_QuestDescription;
+	CIPAddressCtrl m_IPAddress;
+	CString m_UserID;
+	CString m_Password;
 };

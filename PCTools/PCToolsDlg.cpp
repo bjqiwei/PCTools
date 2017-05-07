@@ -9,6 +9,7 @@
 #include "HttpClient.h"
 #include "codingHelper.h"
 #include <json/json.h>
+#include "LoginDig.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -54,6 +55,10 @@ END_MESSAGE_MAP()
 
 CPCToolsDlg::CPCToolsDlg(CWnd* pParent /*=NULL*/)
 	: CDialog(IDD_PCTOOLS_DIALOG, pParent)
+	, m_TelPhone(_T(""))
+	, m_QuestDescription(_T(""))
+	, m_UserID(_T(""))
+	, m_Password(_T(""))
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
@@ -62,6 +67,10 @@ void CPCToolsDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_WOCATEGORY, m_WOCategory);
+	DDX_Text(pDX, ID_TELPHONE, m_TelPhone);
+	DDX_Control(pDX, IDC_WOLEVEL, m_WOLevel);
+	DDX_Text(pDX, IDC_QUESTDESCRIPTION, m_QuestDescription);
+	DDX_Control(pDX, IDC_IPADDRESS1, m_IPAddress);
 }
 
 BEGIN_MESSAGE_MAP(CPCToolsDlg, CDialog)
@@ -137,11 +146,35 @@ BOOL CPCToolsDlg::OnInitDialog()
 				if (wocategory["Message"].isString())
 					message = wocategory["Message"].asString();
 				message = UTF_82ASCII(message);
-				this->MessageBox(message.c_str(), "Error");
+				this->MessageBox(message.c_str(), "错误");
 			}
 		}
 	}
 	m_WOCategory.SetCurSel(0);
+
+	do
+	{
+		WORD wVersionRequested = MAKEWORD(2, 2);
+
+		WSADATA wsaData;
+		WSAStartup(wVersionRequested, &wsaData);
+
+		char local[255] = { 0 };
+		gethostname(local, sizeof(local));
+		hostent* hostinfo = gethostbyname(local);
+		in_addr addr;
+		memcpy(&addr, hostinfo->h_addr_list[0], sizeof(in_addr)); // 这里仅获取第一个ip  
+
+		m_IPAddress.SetAddress(addr.S_un.S_un_b.s_b1, addr.S_un.S_un_b.s_b2, addr.S_un.S_un_b.s_b3, addr.S_un.S_un_b.s_b4);
+
+		WSACleanup();
+
+	} while (false);
+
+	m_WOLevel.InsertString(0, "一般");
+	m_WOLevel.InsertString(1,"紧急");
+	m_WOLevel.SetCurSel(0);
+
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
 
@@ -199,7 +232,78 @@ HCURSOR CPCToolsDlg::OnQueryDragIcon()
 void CPCToolsDlg::OnBnClickedOk()
 {
 	// TODO: Add your control notification handler code here
+	UpdateData(TRUE);
+
+	if (m_QuestDescription.GetLength() < 10){
+		MessageBox("描述不应该小于5个汉字", "错误");
+		return ;
+	}
+
 	int sel = m_WOCategory.GetCurSel();
 	int oid = m_WOCategory.GetItemData(sel);
-	CDialog::OnOK();
+	
+	if (m_UserID.IsEmpty() && m_Password.IsEmpty())
+	{
+		CLoginDig dlg;
+		INT_PTR nResponse = dlg.DoModal();
+		if (nResponse == IDOK)
+		{
+			m_UserID = dlg.m_UserID;
+			m_Password = dlg.m_Password;
+		}
+		else {
+			return;
+		}
+	}
+
+	Json::Value commitData;
+	commitData["Pwd"] = m_Password.GetBuffer();
+	commitData["UserID"] = m_UserID.GetBuffer();
+	commitData["ContactPhone"] = m_TelPhone.GetBuffer();
+	commitData["RequestInfo"] = m_QuestDescription.GetBuffer();
+	commitData["InboundServiceType"] = oid;
+	CString level;
+	m_WOLevel.GetWindowText(level);
+	commitData["CaseLevel"] = level.GetBuffer();
+
+	in_addr addr;
+	m_IPAddress.GetAddress(addr.S_un.S_un_b.s_b1, addr.S_un.S_un_b.s_b2, addr.S_un.S_un_b.s_b3, addr.S_un.S_un_b.s_b4);
+	commitData["IPAddress"] = inet_ntoa(addr);
+
+	std::string sendBody = commitData.toStyledString();
+	CHttpClient http;
+	std::string httpresult;
+	int result = http.Post(theApp.m_ServerURL + theApp.m_AddWO, sendBody, httpresult);
+	if (result == 0) {
+		Json::Value wocategory;
+		Json::Reader reader;
+		if (reader.parse(httpresult, wocategory)) {
+
+			std::string message;
+			if (wocategory["Message"].isString())
+				message = wocategory["Message"].asString();
+			message = UTF_82ASCII(message);
+
+			if (wocategory["Status"].isInt() && wocategory["Status"].asInt() == 0)
+			{
+				this->MessageBox(message.c_str(), "成功");
+				m_QuestDescription.Empty();
+				return;
+			}
+			else {
+				this->MessageBox(message.c_str(), "错误");
+				m_UserID.Empty();
+				m_Password.Empty();
+				return;
+			}
+		}
+		else {
+			MessageBox("提交失败，服务器拒绝服务", "错误");
+			return;
+		}
+	}
+	else {
+		MessageBox("提交失败，请检查网络连接是否正常", "错误");
+		return;
+	}
 }

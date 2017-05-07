@@ -213,6 +213,7 @@
   <ItemGroup>
     <ClInclude Include="codingHelper.h" />
     <ClInclude Include="HttpClient.h" />
+    <ClInclude Include="LoginDig.h" />
     <ClInclude Include="MD5.h" />
     <ClInclude Include="PCTools.h" />
     <ClInclude Include="PCToolsDlg.h" />
@@ -223,6 +224,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HttpClient.cpp" />
+    <ClCompile Include="LoginDig.cpp" />
     <ClCompile Include="MD5.cpp" />
     <ClCompile Include="PCTools.cpp" />
     <ClCompile Include="PCToolsDlg.cpp" />
