@@ -6,7 +6,7 @@
 ; 禁止对其他应用程序的安装器使用相同的 AppId 值！
 ; (若要生成一个新的 GUID，请选择“工具 | 生成 GUID”。)
 #define AppName "PCTools"
-#define AppVersion "1.0.0.0"
+#define AppVersion "1.0.0.1"
 AppId={{E079CC7C-278D-42BC-A3E6-82F72339438A}}
 AppName={#AppName}
 AppVersion={#AppVersion}
@@ -39,26 +39,12 @@ Name: "chinese"; MessagesFile: "ChineseSimplified.isl"
 ;Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 ;Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
-[Files]
-;Source: "..\bin\CloopenAgent.htm"; DestDir: "{app}"; Flags: ignoreversion 32bit
-;Source: "..\build\Win32\bin\Register.bat"; DestDir: "{app}"; Flags: ignoreversion restartreplace uninsrestartdelete 32bit
-;Source: "..\build\Win32\bin\UnRegister.bat"; DestDir: "{app}"; Flags: ignoreversion restartreplace uninsrestartdelete 32bit
-;Source: "..\build\Win32\bin\npCloopenWebPlugin.dll"; DestDir: "{app}"; Flags: regserver replacesameversion restartreplace uninsrestartdelete 32bit
-;Source: "..\build\Win32\bin\CCPAppClient.dll"; DestDir: "{app}"; Flags: ignoreversion restartreplace uninsrestartdelete 32bit ;Source: "..\bin\x86\avcodec-55.dll"; DestDir: "{app}"; Flags: ignoreversion  32bit  ;Source: "..\bin\x86\avformat-55.dll"; DestDir: "{app}"; Flags: ignoreversion 32bit 
-;Source: "..\bin\x86\avutil-52.dll"; DestDir: "{app}"; Flags: ignoreversion 32bit     ;Source: "..\build\Win32\bin\libx264-142.dll"; DestDir: "{app}"; Flags: ignoreversion restartreplace uninsrestartdelete 32bit
-;Source: "..\build\Win32\bin\ring.amr"; DestDir: "{app}"; Flags: ignoreversion restartreplace uninsrestartdelete 32bit 
+[Files]Source: "..\build\Win32\bin\PCTools.exe"; DestDir: "{app}"; Flags: replacesameversion restartreplace uninsrestartdelete 32bit;Source: "..\bin\x86\avcodec-55.dll"; DestDir: "{app}"; Flags: ignoreversion  32bit    ;Source: "..\build\Win32\bin\libx264-142.dll"; DestDir: "{app}"; Flags: ignoreversion restartreplace uninsrestartdelete 32bitSource: "..\build\Win32\bin\PCTools.xml"; DestDir: "{app}"; Flags: ignoreversion restartreplace uninsrestartdelete 32bit 
 ;Source: "..\build\Win32\bin\ring.wav"; DestDir: "{app}"; Flags: ignoreversion restartreplace uninsrestartdelete 32bit   
-;Source: "..\bin\x64\CloopenAgentOCXx64.dll"; DestDir: "{app}"; Flags: regserver replacesameversion 64bit ;Check: Is64BitInstallMode
-;Source: "..\bin\x64\avcodec-55.dll"; DestDir: "{app}"; Flags: ignoreversion 64bit ;Check: Is64BitInstallMode
-;Source: "..\bin\x64\avformat-55.dll"; DestDir: "{app}"; Flags: ignoreversion 64bit  ;Check: Is64BitInstallMode
-;Source: "..\bin\x64\avutil-52.dll"; DestDir: "{app}"; Flags: ignoreversion 64bit  ;Check: Is64BitInstallMode
-;Source: "..\bin\x64\swresample-0.dll"; DestDir: "{app}"; Flags: ignoreversion 64bit  ;Check: Is64BitInstallMode
-;Source: "..\bin\x64\CCPAppClientx64.dll"; DestDir: "{app}"; Flags: replacesameversion 64bit  ;Check: Is64BitInstallMode
 ;Source: "..\bin\ring.wav"; DestDir: "{app}"; Flags: ignoreversion 64bit  ;Check: Is64BitInstallMode
 ; 注意: 不要在任何共享系统文件上使用“Flags: ignoreversion”
 
-[Icons]
-;Name: "{group}\WebPlugin"; Filename: "{app}\CloopenAgent.htm"
+[Icons]Name: "{group}\PCTools"; Filename: "{app}\PCTools.exe"
 Name: "{group}\{cm:UninstallProgram,{#AppName}}"; Filename: "{uninstallexe}"
 ;Name: "{commondesktop}\CloopenClientPlugin"; Filename: "{app}\ClientPlugin.htm"; Tasks: desktopicon
 ;Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\CloopenClientPlugin"; Filename: "{app}\ClientPlugin.htm"; Tasks: quicklaunchicon
