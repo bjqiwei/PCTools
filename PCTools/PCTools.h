@@ -30,9 +30,9 @@ public:
 	DECLARE_MESSAGE_MAP()
 
 public:
-	std::string m_ServerURL;
-	std::string m_AddWO;
-	std::string m_GetWOCategory;
+	std::string m_ServerURL = "http://123.56.241.85:8080";
+	std::string m_AddWO = "/ADOrderInfo/AddInboundServiceRequest?v=1_1";
+	std::string m_GetWOCategory = "/ADOrderInfo/GetInboundServiceType?v=1_1";
 };
 
 extern CPCToolsApp theApp;

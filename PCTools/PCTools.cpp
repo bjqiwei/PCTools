@@ -58,16 +58,16 @@ BOOL CPCToolsApp::InitInstance()
 		if (XMLElement *epctools = config.FirstChildElement("PCTools")) {
 			if (XMLElement * eserverurl = epctools->FirstChildElement("ServerURL"))
 			{
-				m_ServerURL = eserverurl->GetText() ? eserverurl->GetText() : "";
+				m_ServerURL = eserverurl->GetText() ? eserverurl->GetText() : m_ServerURL;
 			}
 
 			if (XMLElement * eaddwo = epctools->FirstChildElement("AddWO"))
 			{
-				m_AddWO = eaddwo->GetText() ? eaddwo->GetText() : "";
+				m_AddWO = eaddwo->GetText() ? eaddwo->GetText() : m_AddWO;
 			}
 			if (XMLElement * eGetWOCategory = epctools->FirstChildElement("GetWOCategory"))
 			{
-				m_GetWOCategory = eGetWOCategory->GetText() ? eGetWOCategory->GetText() : "";
+				m_GetWOCategory = eGetWOCategory->GetText() ? eGetWOCategory->GetText() : m_AddWO;
 			}
 		}
 	}
