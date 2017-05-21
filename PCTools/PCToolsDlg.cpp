@@ -328,12 +328,12 @@ void CPCToolsDlg::FixMoving(UINT fwSide, LPRECT pRect)
 		pRect->top = -m_edgeHeight;
 		m_hideMode = HM_TOP;
 	}
-	else if (curPos.y >= (screenHeight - INTERVAL - m_taskBarHeight))
+	/*else if (curPos.y >= (screenHeight - INTERVAL - m_taskBarHeight))
 	{ //Õ³¸½ÔÚÏÂ±ß  
 		pRect->top = screenHeight - m_taskBarHeight - height;
 		pRect->bottom = screenHeight - m_taskBarHeight;
 		m_hideMode = HM_BOTTOM;
-	}
+	}*/
 	else if (curPos.x < INTERVAL)
 	{ //Õ³¸½ÔÚ×ó±ß  
 		if (!m_isSizeChanged)

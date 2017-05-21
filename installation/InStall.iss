@@ -6,7 +6,7 @@
 ; 禁止对其他应用程序的安装器使用相同的 AppId 值！
 ; (若要生成一个新的 GUID，请选择“工具 | 生成 GUID”。)
 #define AppName "PCTools"
-#define AppVersion "1.0.0.1"
+#define AppVersion "1.0.0.2"
 AppId={{E079CC7C-278D-42BC-A3E6-82F72339438A}}
 AppName={#AppName}
 AppVersion={#AppVersion}
